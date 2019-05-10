@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 from config import USER, PASSWORD, DELAY
 
 notify2.init('gmail')
+logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s')
 logging.getLogger().setLevel(logging.INFO)
 
 class GMail:
@@ -48,8 +49,14 @@ g = GMail(USER, PASSWORD)
 s = sched.scheduler()
 
 def check_mail():
+    logging.info('checking')
+    try:
+        g.check()
+    except KeyboardInterrupt:
+        exit(0)
+    except e:
+        logging.error(e)
     logging.info('checked')
-    g.check()
     s.enter(DELAY, 1, check_mail)
 
 check_mail()
