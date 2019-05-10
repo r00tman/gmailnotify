@@ -6,7 +6,7 @@ Simple GMail new message notifications through Atom feed and libnotify.
 Install dependencies:
 
 ```shell
-$ pip install --user requests notify2
+$ pip install --user requests beautifulsoup4 notify2
 ```
 
 Now, you need to create a config.
