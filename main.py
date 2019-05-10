@@ -1,3 +1,4 @@
+import datetime
 import logging
 import sched, time
 import notify2
@@ -9,6 +10,11 @@ from config import USER, PASSWORD, DELAY
 notify2.init('gmail')
 logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s')
 logging.getLogger().setLevel(logging.INFO)
+
+
+def parse_timestamp(ts):
+    return datetime.datetime.strptime(ts, "%Y-%m-%dT%H:%M:%SZ")
+
 
 class GMail:
     def __init__(self, user, password):
@@ -25,9 +31,8 @@ class GMail:
         last_one = bs.find('entry')
 
         # is it the same one we checked before
-        # todo: show only if the date is greater
-        # than the last one's
-        if self.last_one and self.last_one.modified.text == last_one.modified.text:
+        if self.last_one and parse_timestamp(self.last_one.modified.text) >= \
+                parse_timestamp(last_one.modified.text):
             return
 
         # don't show it the first time, since it's
