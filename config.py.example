@@ -1,0 +1,6 @@
+# Your email address
+USER = ''
+# You can obtain an app password at https://myaccount.google.com/apppasswords
+PASSWORD = ''
+# Check interval
+DELAY = 60
