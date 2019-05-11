@@ -26,6 +26,8 @@ class GMail:
         res = requests.get(
             'https://mail.google.com/mail/feed/atom/',
             auth=HTTPBasicAuth(self.user, self.password))
+        if res.status_code != 200:
+            raise RuntimeError(res.text)
         bs = BeautifulSoup(res.content, features='xml')
 
         last_one = bs.find('entry')
@@ -59,7 +61,7 @@ def check_mail():
         g.check()
     except KeyboardInterrupt:
         exit(0)
-    except e:
+    except Exception as e:
         logging.error(e)
     logging.info('checked')
     s.enter(DELAY, 1, check_mail)
